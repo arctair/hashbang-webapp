@@ -1,4 +1,5 @@
-import api from './hashbang-api'
+import { renderHook } from '@testing-library/react-hooks'
+import { useNamedTagLists } from './hashbang-api'
 import nock from 'nock'
 
 const cors = {
@@ -12,7 +13,12 @@ test('get named tag lists', async () => {
     .get('/namedTagLists')
     .reply(200, [{ name: 'minnesota', tags: ['#cold', '#craftbeer'] }])
 
-  const gotNamedTagLists = await api.getNamedTagLists()
+  const { result, waitForNextUpdate } = renderHook(() =>
+    useNamedTagLists(),
+  )
+  await waitForNextUpdate()
+
+  const gotNamedTagLists = result.current
   const wantNamedTagLists = [
     { name: 'minnesota', tags: ['#cold', '#craftbeer'] },
   ]
@@ -26,7 +32,9 @@ test('get named tag lists is empty', async () => {
     .get('/namedTagLists')
     .reply(200, [])
 
-  const gotNamedTagLists = await api.getNamedTagLists()
+  const { result } = renderHook(() => useNamedTagLists())
+
+  const gotNamedTagLists = result.current
   const wantNamedTagLists = []
 
   expect(gotNamedTagLists).toEqual(wantNamedTagLists)

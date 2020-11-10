@@ -1,29 +1,27 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import App from './App'
 
-import api from './hashbang-api'
+import { useNamedTagLists } from './hashbang-api'
 
 jest.mock('./hashbang-api', () => ({
-  getNamedTagLists: jest.fn(),
+  useNamedTagLists: jest.fn(),
 }))
 
 beforeEach(() => {
-  api.getNamedTagLists.mockClear()
+  useNamedTagLists.mockClear()
 })
 
 test('renders no named tag lists', async () => {
-  api.getNamedTagLists.mockResolvedValue([])
+  useNamedTagLists.mockReturnValue([])
 
   const { container } = render(<App />)
-
-  await waitFor(() => expect(api.getNamedTagLists).toHaveBeenCalled())
 
   expect(container.firstChild).toBeNull()
 })
 
 test('renders named tag lists', async () => {
-  api.getNamedTagLists.mockResolvedValue([
+  useNamedTagLists.mockReturnValue([
     {
       name: 'minnesota',
       tags: ['#cold', '#craftbeer'],
@@ -31,8 +29,6 @@ test('renders named tag lists', async () => {
   ])
 
   const { container } = render(<App />)
-
-  await waitFor(() => expect(api.getNamedTagLists).toHaveBeenCalled())
 
   expect(
     container.querySelector(
