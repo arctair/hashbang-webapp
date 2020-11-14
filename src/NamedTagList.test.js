@@ -4,9 +4,18 @@ import NamedTagList from './NamedTagList'
 
 test('render', async () => {
   const { container } = render(
-    <NamedTagList name={'minnesota'} tags={['#cold', '#craftbeer']} />,
+    <NamedTagList
+      id={'deadbeef'}
+      name={'minnesota'}
+      tags={['#cold', '#craftbeer']}
+    />,
   )
 
+  expect(
+    container.querySelector(
+      '[data-testid=namedTagList] > [data-testid=id]',
+    ).textContent,
+  ).toBe('deadbeef')
   expect(
     container.querySelector(
       '[data-testid=namedTagList] > [data-testid=name]',

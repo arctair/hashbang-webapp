@@ -1,8 +1,9 @@
 import './NamedTagList.css'
 
-function NamedTagList({ name, tags }) {
+function NamedTagList({ id, name, tags }) {
   return (
     <div className="namedTagList" data-testid="namedTagList">
+      <div data-testid="id">{id}</div>
       <div className="name" data-testid="name">
         {name}
       </div>

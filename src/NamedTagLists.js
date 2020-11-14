@@ -5,8 +5,8 @@ import NewNamedTagList from './NewNamedTagList'
 function NamedTagLists() {
   return (
     <>
-      {useNamedTagLists().map(({ name, tags }, key) => (
-        <NamedTagList name={name} tags={tags} key={key} />
+      {useNamedTagLists().map(({ id, name, tags }, key) => (
+        <NamedTagList id={id} name={name} tags={tags} key={key} />
       ))}
       <NewNamedTagList />
     </>

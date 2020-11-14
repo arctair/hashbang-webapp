@@ -25,6 +25,7 @@ test('renders no named tag lists', async () => {
 test('renders named tag lists', async () => {
   useNamedTagLists.mockReturnValue([
     {
+      id: 'deadbeef',
       name: 'minnesota',
       tags: ['#cold', '#craftbeer'],
     },
@@ -32,6 +33,11 @@ test('renders named tag lists', async () => {
 
   const { container } = render(<NamedTagLists />)
 
+  expect(
+    container.querySelector(
+      '[data-testid=namedTagList] > [data-testid=id]',
+    ).textContent,
+  ).toBe('deadbeef')
   expect(
     container.querySelector(
       '[data-testid=namedTagList] > [data-testid=name]',
