@@ -12,7 +12,7 @@ function NewNamedTagList() {
         data-testid="name"
         onChange={(e) => setName(e.target.value)}
       />
-      <input
+      <textarea
         className="tags"
         data-testid="tags"
         onChange={(e) => setTags(e.target.value.split(' '))}
