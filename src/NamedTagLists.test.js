@@ -1,6 +1,5 @@
-import React from 'react'
 import { render } from '@testing-library/react'
-import App from './App'
+import NamedTagLists from './NamedTagLists'
 
 import { useNamedTagLists } from './hashbang-api'
 
@@ -15,7 +14,7 @@ beforeEach(() => {
 test('renders no named tag lists', async () => {
   useNamedTagLists.mockReturnValue([])
 
-  const { container } = render(<App />)
+  const { container } = render(<NamedTagLists />)
 
   expect(container.firstChild).toBeNull()
 })
@@ -28,7 +27,7 @@ test('renders named tag lists', async () => {
     },
   ])
 
-  const { container } = render(<App />)
+  const { container } = render(<NamedTagLists />)
 
   expect(
     container.querySelector(
