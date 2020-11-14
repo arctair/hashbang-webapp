@@ -6,10 +6,32 @@
   border: 1px solid lightgray;
 }
 
+.namedTagList > * {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
+}
+
 .namedTagList > .name {
   padding: 0.125em;
   background-color: lightgray;
 }
 
 .namedTagList > .tags {
+}
+
+.namedTagList > .create {
+  padding: 0;
+}
+
+.namedTagList > .create:after {
+  content: 'create';
+  display: block;
+  background-color: rgb(214, 238, 214);
+  cursor: pointer;
+}
+
+.namedTagList > .create:hover:after {
+  background-color: lightgreen;
 }
