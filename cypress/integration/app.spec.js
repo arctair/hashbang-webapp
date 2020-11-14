@@ -8,28 +8,30 @@ describe('App', function () {
 
   it('renders the app', function () {
     cy.request('delete', 'https://hashbang.arctair.com/namedTagLists')
-
-    cy.reload()
-
-    cy.get('#root').should('be.empty')
-
-    cy.request(
-      'post',
-      'https://hashbang.arctair.com/namedTagLists',
-      JSON.stringify({ name: 'minnesota', tags: ['#cold'] }),
-    )
       .its('isOkStatusCode')
       .should('be.true')
 
     cy.reload()
 
+    cy.get('[data-testid=namedTagList]').should('not.exist')
+
+    cy.get('[data-testid=newNamedTagList] > [data-testid=name]').type(
+      'trees',
+    )
+    cy.get('[data-testid=newNamedTagList] > [data-testid=tags]').type(
+      '#branchy #whispering',
+    )
+    cy.get('[data-testid=newNamedTagList] > [data-testid=create]').click()
+
+    cy.reload()
+
     cy.get('[data-testid=namedTagList] > [data-testid=name]').should(
       'have.text',
-      'minnesota',
+      'trees',
     )
     cy.get('[data-testid=namedTagList] > [data-testid=tags]').should(
       'have.text',
-      '#cold',
+      '#branchy #whispering',
     )
 
     cy.request('delete', 'https://hashbang.arctair.com/namedTagLists')
