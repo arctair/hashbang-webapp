@@ -13,6 +13,10 @@
   border: none;
 }
 
+.namedTagList > .id {
+  display: none;
+}
+
 .namedTagList > .name {
   padding: 0.125em;
   background-color: lightgray;
