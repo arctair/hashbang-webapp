@@ -8,7 +8,7 @@ const cors = {
 }
 
 test('get named tag lists', async () => {
-  const scope = nock('https://hashbang.arctair.com')
+  nock('https://hashbang.arctair.com')
     .defaultReplyHeaders(cors)
     .get('/namedTagLists')
     .reply(200, [{ name: 'minnesota', tags: ['#cold', '#craftbeer'] }])
@@ -27,7 +27,7 @@ test('get named tag lists', async () => {
 })
 
 test('get named tag lists is empty', async () => {
-  const scope = nock('https://hashbang.arctair.com')
+  nock('https://hashbang.arctair.com')
     .defaultReplyHeaders(cors)
     .get('/namedTagLists')
     .reply(200, [])
