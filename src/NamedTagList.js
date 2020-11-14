@@ -12,6 +12,7 @@ function NamedTagList({ id, name, tags }) {
       </div>
       <button
         onClick={() => deleteNamedTagLists([id])}
+        className="delete"
         data-testid="delete"
       />
       <div className="tags" data-testid="tags">
