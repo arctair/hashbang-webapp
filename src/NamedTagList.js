@@ -1,3 +1,5 @@
+import './NamedTagList.css'
+
 function NamedTagList({ name, tags }) {
   return (
     <div className="namedTagList" data-testid="namedTagList">

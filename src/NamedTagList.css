@@ -1,0 +1,15 @@
+.namedTagList {
+  box-shadow: 0.125em 0.125em #eee;
+  border-radius: 0.125em;
+  position: relative;
+  margin: 0.25em;
+  border: 1px solid lightgray;
+}
+
+.namedTagList > .name {
+  padding: 0.125em;
+  background-color: lightgray;
+}
+
+.namedTagList > .tags {
+}
