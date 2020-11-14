@@ -1,6 +1,13 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
 
+function createNamedTagList(namedTagList) {
+  return fetch('https://hashbang.arctair.com/namedTagLists', {
+    method: 'POST',
+    body: JSON.stringify(namedTagList),
+  }).then((response) => response.json())
+}
+
 function useNamedTagLists() {
   const [namedTagLists, setNamedTagLists] = useState([])
   useEffect(() => {
@@ -11,4 +18,4 @@ function useNamedTagLists() {
   return namedTagLists
 }
 
-export { useNamedTagLists }
+export { createNamedTagList, useNamedTagLists }

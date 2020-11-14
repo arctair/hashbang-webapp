@@ -17,6 +17,9 @@ test('renders no named tag lists', async () => {
   const { container } = render(<NamedTagLists />)
 
   expect(container.querySelector('[data-testid=namedTagList]')).toBeNull()
+  expect(
+    container.querySelectorAll('[data-testid=newNamedTagList]'),
+  ).toHaveLength(1)
 })
 
 test('renders named tag lists', async () => {
