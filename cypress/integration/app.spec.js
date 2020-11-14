@@ -34,8 +34,10 @@ describe('App', function () {
       '#branchy #whispering',
     )
 
-    cy.request('delete', 'https://hashbang.arctair.com/namedTagLists')
-      .its('isOkStatusCode')
-      .should('be.true')
+    cy.get('[data-testid=namedTagList] > [data-testid=delete]').click()
+
+    cy.reload()
+
+    cy.get('[data-testid=namedTagList]').should('not.exist')
   })
 })

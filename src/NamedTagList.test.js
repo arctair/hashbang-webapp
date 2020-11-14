@@ -2,6 +2,16 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import NamedTagList from './NamedTagList'
 
+import { deleteNamedTagLists } from './hashbang-api'
+
+jest.mock('./hashbang-api', () => ({
+  deleteNamedTagLists: jest.fn(),
+}))
+
+beforeEach(() => {
+  deleteNamedTagLists.mockClear()
+})
+
 test('render', async () => {
   const { container } = render(
     <NamedTagList
@@ -26,4 +36,14 @@ test('render', async () => {
       '[data-testid=namedTagList] > [data-testid=tags]',
     ).textContent,
   ).toBe('#cold #craftbeer')
+})
+
+test('delete', async () => {
+  const { container } = render(<NamedTagList id={'deadbeef'} tags={[]} />)
+
+  container
+    .querySelector('[data-testid=namedTagList] > [data-testid=delete]')
+    .click()
+
+  expect(deleteNamedTagLists).toHaveBeenCalledWith(['deadbeef'])
 })

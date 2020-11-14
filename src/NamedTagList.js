@@ -1,3 +1,4 @@
+import { deleteNamedTagLists } from './hashbang-api'
 import './NamedTagList.css'
 
 function NamedTagList({ id, name, tags }) {
@@ -9,6 +10,10 @@ function NamedTagList({ id, name, tags }) {
       <div className="name" data-testid="name">
         {name}
       </div>
+      <button
+        onClick={() => deleteNamedTagLists([id])}
+        data-testid="delete"
+      />
       <div className="tags" data-testid="tags">
         {tags.join(' ')}
       </div>

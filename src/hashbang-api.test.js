@@ -1,5 +1,9 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { createNamedTagList, useNamedTagLists } from './hashbang-api'
+import {
+  createNamedTagList,
+  deleteNamedTagLists,
+  useNamedTagLists,
+} from './hashbang-api'
 import nock from 'nock'
 
 const cors = {
@@ -68,4 +72,34 @@ test('create named tag list', async () => {
   }
 
   expect(gotNamedTagList).toEqual(wantNamedTagList)
+})
+
+test('delete named tag list', async () => {
+  nock('https://hashbang.arctair.com')
+    .defaultReplyHeaders(cors)
+    .options('/namedTagLists?id=deadbeef')
+    .reply(200)
+  nock('https://hashbang.arctair.com')
+    .defaultReplyHeaders(cors)
+    .delete('/namedTagLists?id=deadbeef')
+    .reply(204)
+
+  await deleteNamedTagLists(['deadbeef'])
+})
+
+test('delete named tag list when error', async () => {
+  nock('https://hashbang.arctair.com')
+    .defaultReplyHeaders(cors)
+    .options('/namedTagLists?id=deadbeef')
+    .reply(200)
+  nock('https://hashbang.arctair.com')
+    .defaultReplyHeaders(cors)
+    .delete('/namedTagLists?id=deadbeef')
+    .reply(504)
+
+  await expect(deleteNamedTagLists(['deadbeef'])).rejects.toEqual(
+    Error(
+      'Got status code 504 trying to delete /namedTagLists?id=deadbeef',
+    ),
+  )
 })

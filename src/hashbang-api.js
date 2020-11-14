@@ -8,6 +8,19 @@ function createNamedTagList(namedTagList) {
   }).then((response) => response.json())
 }
 
+function deleteNamedTagLists(ids) {
+  const path = `/namedTagLists?id=${ids.join(',')}`
+  return fetch(`https://hashbang.arctair.com${path}`, {
+    method: 'DELETE',
+  }).then((response) => {
+    if (response.status != 204) {
+      throw Error(
+        `Got status code ${response.status} trying to delete ${path}`,
+      )
+    }
+  })
+}
+
 function useNamedTagLists() {
   const [namedTagLists, setNamedTagLists] = useState([])
   useEffect(() => {
@@ -18,4 +31,4 @@ function useNamedTagLists() {
   return namedTagLists
 }
 
-export { createNamedTagList, useNamedTagLists }
+export { createNamedTagList, deleteNamedTagLists, useNamedTagLists }

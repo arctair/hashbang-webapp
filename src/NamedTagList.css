@@ -34,6 +34,8 @@
   display: block;
   background-color: rgb(214, 238, 214);
   cursor: pointer;
+  padding: 0.25em;
+  font-size: 1em;
 }
 
 .namedTagList > .create:hover:after {
