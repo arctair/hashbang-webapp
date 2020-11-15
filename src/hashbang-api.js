@@ -13,7 +13,7 @@ function deleteNamedTagLists(ids) {
   return fetch(`https://hashbang.arctair.com${path}`, {
     method: 'DELETE',
   }).then((response) => {
-    if (response.status != 204) {
+    if (response.status !== 204) {
       throw Error(
         `Got status code ${response.status} trying to delete ${path}`,
       )

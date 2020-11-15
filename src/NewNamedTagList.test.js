@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react'
 import NewNamedTagList from './NewNamedTagList'
 
-import { createNamedTagList, useNamedTagLists } from './hashbang-api'
+import { createNamedTagList } from './hashbang-api'
 
 jest.mock('./hashbang-api', () => ({
   createNamedTagList: jest.fn(),
