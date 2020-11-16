@@ -1,14 +1,17 @@
 import { render } from '@testing-library/react'
 import NamedTagLists from './NamedTagLists'
 
-import { useNamedTagLists } from './hashbang'
+import { useNamedTagLists, useNamedTagListsOps } from './hashbang'
 
 jest.mock('./hashbang', () => ({
   useNamedTagLists: jest.fn(),
+  useNamedTagListsOps: jest.fn(),
 }))
 
 beforeEach(() => {
-  useNamedTagLists.mockClear()
+  useNamedTagListsOps.mockReturnValue({
+    createNamedTagList: () => {},
+  })
 })
 
 test('renders no named tag lists', async () => {

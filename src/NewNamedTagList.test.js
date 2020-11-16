@@ -1,18 +1,16 @@
 import { fireEvent, render } from '@testing-library/react'
 import NewNamedTagList from './NewNamedTagList'
 
-import { createNamedTagList } from './hashbang.http'
+import { useNamedTagListsOps } from './hashbang'
 
-jest.mock('./hashbang.http', () => ({
-  createNamedTagList: jest.fn(),
+jest.mock('./hashbang', () => ({
+  useNamedTagListsOps: jest.fn(),
 }))
 
-beforeEach(() => {
-  createNamedTagList.mockClear()
-})
-
 test('create new named tag list', async () => {
+  const createNamedTagList = jest.fn()
   createNamedTagList.mockResolvedValue({ id: 'deadbeef' })
+  useNamedTagListsOps.mockReturnValue({ createNamedTagList })
 
   const utils = render(<NewNamedTagList />)
 

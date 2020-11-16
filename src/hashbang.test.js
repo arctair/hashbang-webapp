@@ -1,9 +1,11 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { getNamedTagLists } from './hashbang.http'
-import { useNamedTagLists } from './hashbang'
+import { createNamedTagList, getNamedTagLists } from './hashbang.http'
+import { useNamedTagLists, useNamedTagListsOps } from './hashbang'
+import { createContext } from 'react'
 
 jest.mock('./hashbang.http', () => ({
   getNamedTagLists: jest.fn(),
+  createNamedTagList: jest.fn(),
 }))
 
 test('get named tag lists', async () => {
@@ -24,16 +26,26 @@ test('get named tag lists', async () => {
   expect(gotNamedTagLists).toEqual(wantNamedTagLists)
 })
 
-test('get named tag lists is empty', async () => {
-  getNamedTagLists.mockResolvedValue([])
+test('create named tag list', async () => {
+  const request = {
+    name: 'notreal',
+    tags: ['#fake'],
+  }
 
-  const { result, waitForNextUpdate } = renderHook(() =>
-    useNamedTagLists(),
-  )
-  await waitForNextUpdate()
+  const response = {
+    id: 'deadbeef',
+    name: 'fake',
+    tags: ['#notreal'],
+  }
 
-  const gotNamedTagLists = result.current
-  const wantNamedTagLists = []
+  createNamedTagList.mockResolvedValue(response)
 
-  expect(gotNamedTagLists).toEqual(wantNamedTagLists)
+  const hook = renderHook(() => useNamedTagListsOps())
+  const { createNamedTagList: hookFn } = hook.result.current
+
+  const gotNamedTagList = await hookFn(request)
+  const wantNamedTagList = response
+  expect(gotNamedTagList).toEqual(wantNamedTagList)
+
+  expect(createNamedTagList).toHaveBeenCalledWith(request)
 })

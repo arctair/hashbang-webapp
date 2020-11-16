@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { createNamedTagList } from './hashbang.http'
+import { useNamedTagListsOps } from './hashbang'
 import './NamedTagList.css'
 
 function NewNamedTagList() {
   const [name, setName] = useState('')
   const [tags, setTags] = useState([])
+  const { createNamedTagList } = useNamedTagListsOps()
   return (
     <div className="namedTagList" data-testid="newNamedTagList">
       <input

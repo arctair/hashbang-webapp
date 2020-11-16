@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getNamedTagLists } from './hashbang.http'
+import { createNamedTagList, getNamedTagLists } from './hashbang.http'
 
 function useNamedTagLists() {
   const [namedTagLists, setNamedTagLists] = useState([])
@@ -9,4 +9,10 @@ function useNamedTagLists() {
   return namedTagLists
 }
 
-export { useNamedTagLists }
+function useNamedTagListsOps() {
+  return {
+    createNamedTagList,
+  }
+}
+
+export { useNamedTagLists, useNamedTagListsOps }
