@@ -1,6 +1,3 @@
-import { useEffect } from 'react'
-import { useState } from 'react'
-
 function createNamedTagList(namedTagList) {
   return fetch('https://hashbang.arctair.com/namedTagLists', {
     method: 'POST',
@@ -21,14 +18,10 @@ function deleteNamedTagLists(ids) {
   })
 }
 
-function useNamedTagLists() {
-  const [namedTagLists, setNamedTagLists] = useState([])
-  useEffect(() => {
-    fetch('https://hashbang.arctair.com/namedTagLists')
-      .then((response) => response.json())
-      .then((ntls) => setNamedTagLists(ntls))
-  }, [])
-  return namedTagLists
+function getNamedTagLists() {
+  return fetch(
+    'https://hashbang.arctair.com/namedTagLists',
+  ).then((response) => response.json())
 }
 
-export { createNamedTagList, deleteNamedTagLists, useNamedTagLists }
+export { createNamedTagList, deleteNamedTagLists, getNamedTagLists }

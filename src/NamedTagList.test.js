@@ -2,9 +2,9 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import NamedTagList from './NamedTagList'
 
-import { deleteNamedTagLists } from './hashbang-api'
+import { deleteNamedTagLists } from './hashbang.http'
 
-jest.mock('./hashbang-api', () => ({
+jest.mock('./hashbang.http', () => ({
   deleteNamedTagLists: jest.fn(),
 }))
 

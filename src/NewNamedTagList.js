@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { createNamedTagList } from './hashbang-api'
+import { createNamedTagList } from './hashbang.http'
 import './NamedTagList.css'
 
 function NewNamedTagList() {

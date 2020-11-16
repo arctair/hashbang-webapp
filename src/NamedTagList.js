@@ -1,4 +1,4 @@
-import { deleteNamedTagLists } from './hashbang-api'
+import { deleteNamedTagLists } from './hashbang.http'
 import './NamedTagList.css'
 
 function NamedTagList({ id, name, tags }) {

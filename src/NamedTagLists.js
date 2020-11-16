@@ -1,5 +1,5 @@
 import NamedTagList from './NamedTagList'
-import { useNamedTagLists } from './hashbang-api'
+import { useNamedTagLists } from './hashbang'
 import NewNamedTagList from './NewNamedTagList'
 
 function NamedTagLists() {

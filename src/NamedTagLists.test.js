@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react'
 import NamedTagLists from './NamedTagLists'
 
-import { useNamedTagLists } from './hashbang-api'
+import { useNamedTagLists } from './hashbang'
 
-jest.mock('./hashbang-api', () => ({
+jest.mock('./hashbang', () => ({
   useNamedTagLists: jest.fn(),
 }))
 
