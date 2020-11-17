@@ -1,30 +1,27 @@
 import { render } from '@testing-library/react'
 import NamedTagLists from './NamedTagLists'
-import { useNamedTagLists, useNamedTagListsOps } from './hashbang'
+import { useNamedTagLists } from './hashbang'
 import context from './context'
 
 jest.mock('./hashbang', () => ({
   useNamedTagLists: jest.fn(),
-  useNamedTagListsOps: jest.fn(),
 }))
 
 jest.mock('./context', () => ({ fake: 'context' }))
 
 beforeEach(() => {
-  useNamedTagListsOps.mockReturnValue({
+  useNamedTagLists.mockReturnValue({
     createNamedTagList: () => {},
     deleteNamedTagLists: () => {},
+    namedTagLists: [],
   })
 })
 
 afterEach(() => {
   expect(useNamedTagLists).toHaveBeenCalledWith(context)
-  expect(useNamedTagListsOps).toHaveBeenCalledWith(context)
 })
 
 test('renders no named tag lists', async () => {
-  useNamedTagLists.mockReturnValue([])
-
   const { container } = render(<NamedTagLists />)
 
   expect(container.querySelector('[data-testid=namedTagList]')).toBeNull()
@@ -34,13 +31,15 @@ test('renders no named tag lists', async () => {
 })
 
 test('renders named tag lists', async () => {
-  useNamedTagLists.mockReturnValue([
-    {
-      id: 'deadbeef',
-      name: 'minnesota',
-      tags: ['#cold', '#craftbeer'],
-    },
-  ])
+  useNamedTagLists.mockReturnValue({
+    namedTagLists: [
+      {
+        id: 'deadbeef',
+        name: 'minnesota',
+        tags: ['#cold', '#craftbeer'],
+      },
+    ],
+  })
 
   const { container } = render(<NamedTagLists />)
 

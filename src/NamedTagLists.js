@@ -4,9 +4,10 @@ import NewNamedTagList from './NewNamedTagList'
 import context from './context'
 
 function NamedTagLists() {
+  const { namedTagLists } = useNamedTagLists(context)
   return (
     <>
-      {useNamedTagLists(context).map(({ id, name, tags }, key) => (
+      {namedTagLists.map(({ id, name, tags }, key) => (
         <NamedTagList id={id} name={name} tags={tags} key={key} />
       ))}
       <NewNamedTagList />

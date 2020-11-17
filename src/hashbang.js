@@ -19,14 +19,11 @@ function Provider({ children, context }) {
 
 function useNamedTagLists(context) {
   const { namedTagLists } = useContext(context)
-  return namedTagLists
-}
-
-function useNamedTagListsOps() {
   return {
+    namedTagLists,
     createNamedTagList,
     deleteNamedTagLists,
   }
 }
 
-export { Provider, useNamedTagLists, useNamedTagListsOps }
+export { Provider, useNamedTagLists }

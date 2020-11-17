@@ -2,23 +2,23 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import NamedTagList from './NamedTagList'
 
-import { useNamedTagListsOps } from './hashbang'
+import { useNamedTagLists } from './hashbang'
 import context from './context'
 
 jest.mock('./hashbang', () => ({
-  useNamedTagListsOps: jest.fn(),
+  useNamedTagLists: jest.fn(),
 }))
 
 jest.mock('./context', () => ({ fake: 'context' }))
 
 beforeEach(() => {
-  useNamedTagListsOps.mockReturnValue({
+  useNamedTagLists.mockReturnValue({
     deleteNamedTagLists: () => {},
   })
 })
 
 afterEach(() => {
-  expect(useNamedTagListsOps).toHaveBeenCalledWith(context)
+  expect(useNamedTagLists).toHaveBeenCalledWith(context)
 })
 
 test('render', async () => {
@@ -50,7 +50,7 @@ test('render', async () => {
 test('delete', async () => {
   const deleteNamedTagLists = jest.fn()
   deleteNamedTagLists.mockResolvedValue()
-  useNamedTagListsOps.mockReturnValue({ deleteNamedTagLists })
+  useNamedTagLists.mockReturnValue({ deleteNamedTagLists })
 
   const { container } = render(<NamedTagList id={'deadbeef'} tags={[]} />)
 

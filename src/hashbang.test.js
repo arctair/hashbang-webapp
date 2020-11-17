@@ -4,11 +4,7 @@ import {
   deleteNamedTagLists,
   getNamedTagLists,
 } from './hashbang.http'
-import {
-  useNamedTagLists,
-  useNamedTagListsOps,
-  Provider,
-} from './hashbang'
+import { useNamedTagLists, Provider } from './hashbang'
 import { createContext } from 'react'
 
 jest.mock('./hashbang.http', () => ({
@@ -33,7 +29,7 @@ test('get named tag lists', async () => {
   )
   await waitForNextUpdate()
 
-  const gotNamedTagLists = result.current
+  const gotNamedTagLists = result.current.namedTagLists
   const wantNamedTagLists = [
     { name: 'minnesota', tags: ['#cold', '#craftbeer'] },
   ]
@@ -58,7 +54,7 @@ test('create named tag list', async () => {
   createNamedTagList.mockResolvedValue(response)
 
   const context = createContext()
-  const hook = renderHook(() => useNamedTagListsOps(), {
+  const hook = renderHook(() => useNamedTagLists(context), {
     wrapper: ({ children }) => (
       <Provider context={context} children={children} />
     ),
@@ -79,7 +75,7 @@ test('delete named tag lists', async () => {
   deleteNamedTagLists.mockResolvedValue()
 
   const context = createContext()
-  const hook = renderHook(() => useNamedTagListsOps(), {
+  const hook = renderHook(() => useNamedTagLists(context), {
     wrapper: ({ children }) => (
       <Provider context={context} children={children} />
     ),
