@@ -13,7 +13,11 @@ function Provider({ children, context }) {
   return (
     <context.Provider
       value={{
-        namedTagLists,
+        createNamedTagList: async (namedTagList) => {
+          const next = await createNamedTagList(namedTagList)
+          setNamedTagLists((namedTagLists) => namedTagLists.concat(next))
+          return next
+        },
         deleteNamedTagLists: (ids) => {
           deleteNamedTagLists(ids).then(() => {
             setNamedTagLists((namedTagLists) =>
@@ -21,11 +25,7 @@ function Provider({ children, context }) {
             )
           })
         },
-        createNamedTagList: async (namedTagList) => {
-          const next = await createNamedTagList(namedTagList)
-          setNamedTagLists((namedTagLists) => namedTagLists.concat(next))
-          return next
-        },
+        namedTagLists,
       }}
     >
       {children}
