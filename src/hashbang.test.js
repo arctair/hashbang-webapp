@@ -1,10 +1,14 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react-hooks'
 import {
   createNamedTagList,
   deleteNamedTagLists,
   getNamedTagLists,
 } from './hashbang.http'
-import { useNamedTagLists, useNamedTagListsOps } from './hashbang'
+import {
+  useNamedTagLists,
+  useNamedTagListsOps,
+  Provider,
+} from './hashbang'
 import { createContext } from 'react'
 
 jest.mock('./hashbang.http', () => ({
@@ -18,8 +22,14 @@ test('get named tag lists', async () => {
     { name: 'minnesota', tags: ['#cold', '#craftbeer'] },
   ])
 
-  const { result, waitForNextUpdate } = renderHook(() =>
-    useNamedTagLists(),
+  const context = createContext()
+  const { result, waitForNextUpdate } = renderHook(
+    () => useNamedTagLists(context),
+    {
+      wrapper: ({ children }) => (
+        <Provider context={context} children={children} />
+      ),
+    },
   )
   await waitForNextUpdate()
 
@@ -32,6 +42,8 @@ test('get named tag lists', async () => {
 })
 
 test('create named tag list', async () => {
+  getNamedTagLists.mockResolvedValue([])
+
   const request = {
     name: 'notreal',
     tags: ['#fake'],
@@ -45,23 +57,38 @@ test('create named tag list', async () => {
 
   createNamedTagList.mockResolvedValue(response)
 
-  const hook = renderHook(() => useNamedTagListsOps())
+  const context = createContext()
+  const hook = renderHook(() => useNamedTagListsOps(), {
+    wrapper: ({ children }) => (
+      <Provider context={context} children={children} />
+    ),
+  })
   const { createNamedTagList: hookFn } = hook.result.current
 
-  const gotNamedTagList = await hookFn(request)
-  const wantNamedTagList = response
-  expect(gotNamedTagList).toEqual(wantNamedTagList)
+  await act(async () => {
+    const gotNamedTagList = await hookFn(request)
+    const wantNamedTagList = response
+    expect(gotNamedTagList).toEqual(wantNamedTagList)
+  })
 
   expect(createNamedTagList).toHaveBeenCalledWith(request)
 })
 
 test('delete named tag lists', async () => {
+  getNamedTagLists.mockResolvedValue([])
   deleteNamedTagLists.mockResolvedValue()
 
-  const hook = renderHook(() => useNamedTagListsOps())
+  const context = createContext()
+  const hook = renderHook(() => useNamedTagListsOps(), {
+    wrapper: ({ children }) => (
+      <Provider context={context} children={children} />
+    ),
+  })
   const { deleteNamedTagLists: hookFn } = hook.result.current
 
-  await hookFn(['deadbeef', 'feedbef'])
+  await act(async () => {
+    await hookFn(['deadbeef', 'feedbef'])
+  })
 
   expect(deleteNamedTagLists).toHaveBeenCalledWith(['deadbeef', 'feedbef'])
 })

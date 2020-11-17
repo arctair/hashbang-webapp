@@ -3,15 +3,22 @@ import { render } from '@testing-library/react'
 import NamedTagList from './NamedTagList'
 
 import { useNamedTagListsOps } from './hashbang'
+import context from './context'
 
 jest.mock('./hashbang', () => ({
   useNamedTagListsOps: jest.fn(),
 }))
 
+jest.mock('./context', () => ({ fake: 'context' }))
+
 beforeEach(() => {
   useNamedTagListsOps.mockReturnValue({
     deleteNamedTagLists: () => {},
   })
+})
+
+afterEach(() => {
+  expect(useNamedTagListsOps).toHaveBeenCalledWith(context)
 })
 
 test('render', async () => {
