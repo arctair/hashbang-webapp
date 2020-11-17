@@ -21,6 +21,11 @@ function Provider({ children, context }) {
             )
           })
         },
+        createNamedTagList: async (namedTagList) => {
+          const next = await createNamedTagList(namedTagList)
+          setNamedTagLists((namedTagLists) => namedTagLists.concat(next))
+          return next
+        },
       }}
     >
       {children}
@@ -29,12 +34,7 @@ function Provider({ children, context }) {
 }
 
 function useNamedTagLists(context) {
-  const { namedTagLists, deleteNamedTagLists } = useContext(context)
-  return {
-    namedTagLists,
-    createNamedTagList,
-    deleteNamedTagLists,
-  }
+  return useContext(context)
 }
 
 export { Provider, useNamedTagLists }

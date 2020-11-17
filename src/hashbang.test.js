@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import {
-  createNamedTagList,
+  createNamedTagList as httpCreateNamedTagList,
   deleteNamedTagLists as httpDeleteNamedTagLists,
   getNamedTagLists,
 } from './hashbang.http'
@@ -51,7 +51,7 @@ test('create named tag list', async () => {
     tags: ['#notreal'],
   }
 
-  createNamedTagList.mockResolvedValue(response)
+  httpCreateNamedTagList.mockResolvedValue(response)
 
   const context = createContext()
   const hook = renderHook(() => useNamedTagLists(context), {
@@ -59,15 +59,20 @@ test('create named tag list', async () => {
       <Provider context={context} children={children} />
     ),
   })
-  const { createNamedTagList: hookFn } = hook.result.current
+  const { createNamedTagList } = hook.result.current
 
   await act(async () => {
-    const gotNamedTagList = await hookFn(request)
+    const gotNamedTagList = await createNamedTagList(request)
     const wantNamedTagList = response
     expect(gotNamedTagList).toEqual(wantNamedTagList)
   })
 
-  expect(createNamedTagList).toHaveBeenCalledWith(request)
+  expect(httpCreateNamedTagList).toHaveBeenCalledWith(request)
+
+  const gotNamedTagLists = hook.result.current.namedTagLists
+  const wantNamedTagLists = [response]
+
+  expect(gotNamedTagLists).toEqual(wantNamedTagLists)
 })
 
 test('delete named tag lists', async () => {

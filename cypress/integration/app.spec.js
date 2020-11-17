@@ -11,8 +11,6 @@ describe('App', function () {
       .its('isOkStatusCode')
       .should('be.true')
 
-    cy.reload()
-
     cy.get('[data-testid=namedTagList]').should('not.exist')
 
     cy.get('[data-testid=newNamedTagList] > [data-testid=name]').type(
