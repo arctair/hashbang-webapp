@@ -28,6 +28,7 @@
 }
 
 .namedTagList > .delete {
+  line-height: 1;
   grid-row: 1;
   grid-column: 2;
   cursor: pointer;
