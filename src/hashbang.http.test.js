@@ -10,6 +10,13 @@ const cors = {
   'access-control-allow-credentials': 'true',
 }
 
+beforeEach(() => {
+  nock('https://hashbang.arctair.com')
+    .defaultReplyHeaders(cors)
+    .options(() => true)
+    .reply(200)
+})
+
 test('get named tag lists', async () => {
   nock('https://hashbang.arctair.com')
     .defaultReplyHeaders(cors)
@@ -66,10 +73,6 @@ test('create named tag list', async () => {
 test('delete named tag list', async () => {
   nock('https://hashbang.arctair.com')
     .defaultReplyHeaders(cors)
-    .options('/namedTagLists?id=deadbeef')
-    .reply(200)
-  nock('https://hashbang.arctair.com')
-    .defaultReplyHeaders(cors)
     .delete('/namedTagLists?id=deadbeef')
     .reply(204)
 
@@ -77,10 +80,6 @@ test('delete named tag list', async () => {
 })
 
 test('delete named tag list when error', async () => {
-  nock('https://hashbang.arctair.com')
-    .defaultReplyHeaders(cors)
-    .options('/namedTagLists?id=deadbeef')
-    .reply(200)
   nock('https://hashbang.arctair.com')
     .defaultReplyHeaders(cors)
     .delete('/namedTagLists?id=deadbeef')
