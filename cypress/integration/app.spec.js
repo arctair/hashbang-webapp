@@ -36,8 +36,6 @@ describe('App', function () {
 
     cy.get('[data-testid=namedTagList] > [data-testid=delete]').click()
 
-    cy.reload()
-
     cy.get('[data-testid=namedTagList]').should('not.exist')
   })
 })

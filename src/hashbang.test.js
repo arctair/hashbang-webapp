@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import {
   createNamedTagList,
-  deleteNamedTagLists,
+  deleteNamedTagLists as httpDeleteNamedTagLists,
   getNamedTagLists,
 } from './hashbang.http'
 import { useNamedTagLists, Provider } from './hashbang'
@@ -71,20 +71,32 @@ test('create named tag list', async () => {
 })
 
 test('delete named tag lists', async () => {
-  getNamedTagLists.mockResolvedValue([])
-  deleteNamedTagLists.mockResolvedValue()
-
   const context = createContext()
+
+  getNamedTagLists.mockResolvedValue([
+    { id: 'deadbeef' },
+    { id: 'beefdead' },
+    { id: 'dont delete me' },
+  ])
   const hook = renderHook(() => useNamedTagLists(context), {
     wrapper: ({ children }) => (
       <Provider context={context} children={children} />
     ),
   })
-  const { deleteNamedTagLists: hookFn } = hook.result.current
+  const { deleteNamedTagLists } = hook.result.current
 
+  httpDeleteNamedTagLists.mockResolvedValue()
   await act(async () => {
-    await hookFn(['deadbeef', 'feedbef'])
+    await deleteNamedTagLists(['deadbeef', 'beefdead'])
   })
 
-  expect(deleteNamedTagLists).toHaveBeenCalledWith(['deadbeef', 'feedbef'])
+  expect(httpDeleteNamedTagLists).toHaveBeenCalledWith([
+    'deadbeef',
+    'beefdead',
+  ])
+
+  const gotNamedTagLists = hook.result.current.namedTagLists
+  const wantNamedTagLists = [{ id: 'dont delete me' }]
+
+  expect(gotNamedTagLists).toEqual(wantNamedTagLists)
 })
