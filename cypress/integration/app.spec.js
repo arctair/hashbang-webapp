@@ -11,6 +11,8 @@ describe('App', function () {
       .its('isOkStatusCode')
       .should('be.true')
 
+    cy.reload()
+
     cy.get('[data-testid=namedTagList]').should('not.exist')
 
     cy.get('[data-testid=newNamedTagList] > [data-testid=name]').type(
@@ -20,8 +22,6 @@ describe('App', function () {
       '#branchy #whispering',
     )
     cy.get('[data-testid=newNamedTagList] > [data-testid=create]').click()
-
-    cy.reload()
 
     cy.get('[data-testid=namedTagList] > [data-testid=name]').should(
       'have.text',
