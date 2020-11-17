@@ -11,6 +11,7 @@ jest.mock('./hashbang', () => ({
 beforeEach(() => {
   useNamedTagListsOps.mockReturnValue({
     createNamedTagList: () => {},
+    deleteNamedTagLists: () => {},
   })
 })
 

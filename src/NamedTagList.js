@@ -1,7 +1,8 @@
-import { deleteNamedTagLists } from './hashbang.http'
+import { useNamedTagListsOps } from './hashbang'
 import './NamedTagList.css'
 
 function NamedTagList({ id, name, tags }) {
+  const { deleteNamedTagLists } = useNamedTagListsOps()
   return (
     <div className="namedTagList" data-testid="namedTagList">
       <div className="id" data-testid="id">

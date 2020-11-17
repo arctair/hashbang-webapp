@@ -1,11 +1,16 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { createNamedTagList, getNamedTagLists } from './hashbang.http'
+import {
+  createNamedTagList,
+  deleteNamedTagLists,
+  getNamedTagLists,
+} from './hashbang.http'
 import { useNamedTagLists, useNamedTagListsOps } from './hashbang'
 import { createContext } from 'react'
 
 jest.mock('./hashbang.http', () => ({
-  getNamedTagLists: jest.fn(),
   createNamedTagList: jest.fn(),
+  deleteNamedTagLists: jest.fn(),
+  getNamedTagLists: jest.fn(),
 }))
 
 test('get named tag lists', async () => {
@@ -48,4 +53,15 @@ test('create named tag list', async () => {
   expect(gotNamedTagList).toEqual(wantNamedTagList)
 
   expect(createNamedTagList).toHaveBeenCalledWith(request)
+})
+
+test('delete named tag lists', async () => {
+  deleteNamedTagLists.mockResolvedValue()
+
+  const hook = renderHook(() => useNamedTagListsOps())
+  const { deleteNamedTagLists: hookFn } = hook.result.current
+
+  await hookFn(['deadbeef', 'feedbef'])
+
+  expect(deleteNamedTagLists).toHaveBeenCalledWith(['deadbeef', 'feedbef'])
 })

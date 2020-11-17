@@ -2,14 +2,16 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import NamedTagList from './NamedTagList'
 
-import { deleteNamedTagLists } from './hashbang.http'
+import { useNamedTagListsOps } from './hashbang'
 
-jest.mock('./hashbang.http', () => ({
-  deleteNamedTagLists: jest.fn(),
+jest.mock('./hashbang', () => ({
+  useNamedTagListsOps: jest.fn(),
 }))
 
 beforeEach(() => {
-  deleteNamedTagLists.mockClear()
+  useNamedTagListsOps.mockReturnValue({
+    deleteNamedTagLists: () => {},
+  })
 })
 
 test('render', async () => {
@@ -39,6 +41,10 @@ test('render', async () => {
 })
 
 test('delete', async () => {
+  const deleteNamedTagLists = jest.fn()
+  deleteNamedTagLists.mockResolvedValue()
+  useNamedTagListsOps.mockReturnValue({ deleteNamedTagLists })
+
   const { container } = render(<NamedTagList id={'deadbeef'} tags={[]} />)
 
   container
