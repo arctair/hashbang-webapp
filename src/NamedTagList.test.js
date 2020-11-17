@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import NamedTagList from './NamedTagList'
 
 import { useNamedTagLists } from './hashbang'
@@ -14,6 +14,7 @@ jest.mock('./context', () => ({ fake: 'context' }))
 beforeEach(() => {
   useNamedTagLists.mockReturnValue({
     deleteNamedTagLists: () => {},
+    replaceNamedTagList: () => {},
   })
 })
 
@@ -38,12 +39,12 @@ test('render', async () => {
   expect(
     container.querySelector(
       '[data-testid=namedTagList] > [data-testid=name]',
-    ).textContent,
+    ).value,
   ).toBe('minnesota')
   expect(
     container.querySelector(
       '[data-testid=namedTagList] > [data-testid=tags]',
-    ).textContent,
+    ).value,
   ).toBe('#cold #craftbeer')
 })
 
@@ -52,11 +53,53 @@ test('delete', async () => {
   deleteNamedTagLists.mockResolvedValue()
   useNamedTagLists.mockReturnValue({ deleteNamedTagLists })
 
-  const { container } = render(<NamedTagList id={'deadbeef'} tags={[]} />)
+  const { container } = render(
+    <NamedTagList id={'deadbeef'} name={''} tags={[]} />,
+  )
 
   container
     .querySelector('[data-testid=namedTagList] > [data-testid=delete]')
     .click()
 
   expect(deleteNamedTagLists).toHaveBeenCalledWith(['deadbeef'])
+})
+
+test('updating name', async () => {
+  const replaceNamedTagList = jest.fn()
+  replaceNamedTagList.mockResolvedValue()
+  useNamedTagLists.mockReturnValue({ replaceNamedTagList })
+
+  const utils = render(
+    <NamedTagList id={'deadbeef'} name={''} tags={['#tags']} />,
+  )
+
+  fireEvent.change(utils.getByTestId('name'), {
+    target: { value: 'beef stew' },
+  })
+
+  expect(replaceNamedTagList).toHaveBeenCalledWith({
+    id: 'deadbeef',
+    name: 'beef stew',
+    tags: ['#tags'],
+  })
+})
+
+test('updating tags', async () => {
+  const replaceNamedTagList = jest.fn()
+  replaceNamedTagList.mockResolvedValue()
+  useNamedTagLists.mockReturnValue({ replaceNamedTagList })
+
+  const utils = render(
+    <NamedTagList id={'deadbeef'} name={'name'} tags={[]} />,
+  )
+
+  fireEvent.change(utils.getByTestId('tags'), {
+    target: { value: '#beef #stew' },
+  })
+
+  expect(replaceNamedTagList).toHaveBeenCalledWith({
+    id: 'deadbeef',
+    name: 'name',
+    tags: ['#beef', '#stew'],
+  })
 })

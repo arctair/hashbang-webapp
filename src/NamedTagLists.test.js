@@ -13,6 +13,7 @@ beforeEach(() => {
   useNamedTagLists.mockReturnValue({
     createNamedTagList: () => {},
     deleteNamedTagLists: () => {},
+    replaceNamedTagList: () => {},
     namedTagLists: [],
   })
 })
@@ -42,6 +43,6 @@ test('renders named tag lists', async () => {
   const { container } = render(<NamedTagLists />)
 
   expect(
-    container.querySelector('[data-testid=namedTagList]'),
+    container.querySelectorAll('[data-testid=namedTagList]'),
   ).toHaveLength(1)
 })

@@ -2,8 +2,10 @@ import {
   createNamedTagList,
   deleteNamedTagLists,
   getNamedTagLists,
+  replaceNamedTagList,
 } from './hashbang.http'
 import nock from 'nock'
+import { eq } from './fn'
 
 const cors = {
   'access-control-allow-origin': '*',
@@ -89,5 +91,51 @@ test('delete named tag list when error', async () => {
     Error(
       'Got status code 504 trying to delete /namedTagLists?id=deadbeef',
     ),
+  )
+})
+
+test('replace named tag list', async () => {
+  nock('https://hashbang.arctair.com')
+    .defaultReplyHeaders(cors)
+    .put('/namedTagLists?id=deadbeef')
+    .reply((_, body) => {
+      const namedTagList = JSON.parse(body)
+      if (
+        namedTagList.name === 'deadbeef' &&
+        eq(namedTagList.tags, ['#deadbeef'])
+      ) {
+        return [204]
+      } else {
+        console.log(
+          `Unexpected mock arguments name=${namedTagList.name} tags=${namedTagList.tags}`,
+        )
+        return [
+          400,
+          `Unexpected mock arguments name=${namedTagList.name} tags=${namedTagList.tags}`,
+        ]
+      }
+    })
+
+  await replaceNamedTagList({
+    id: 'deadbeef',
+    name: 'deadbeef',
+    tags: ['#deadbeef'],
+  })
+})
+
+test('replace named tag list when error', async () => {
+  nock('https://hashbang.arctair.com')
+    .defaultReplyHeaders(cors)
+    .put('/namedTagLists?id=deadbeef')
+    .reply(504)
+
+  await expect(
+    replaceNamedTagList({
+      id: 'deadbeef',
+      name: 'deadbeef',
+      tags: ['#deadbeef'],
+    }),
+  ).rejects.toEqual(
+    Error('Got status code 504 trying to put /namedTagLists?id=deadbeef'),
   )
 })

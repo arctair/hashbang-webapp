@@ -3,6 +3,7 @@ import {
   createNamedTagList as httpCreateNamedTagList,
   deleteNamedTagLists as httpDeleteNamedTagLists,
   getNamedTagLists,
+  replaceNamedTagList as httpReplaceNamedTagList,
 } from './hashbang.http'
 import { useNamedTagLists, Provider } from './hashbang'
 import { createContext } from 'react'
@@ -11,6 +12,7 @@ jest.mock('./hashbang.http', () => ({
   createNamedTagList: jest.fn(),
   deleteNamedTagLists: jest.fn(),
   getNamedTagLists: jest.fn(),
+  replaceNamedTagList: jest.fn(),
 }))
 
 test('get named tag lists', async () => {
@@ -102,6 +104,44 @@ test('delete named tag lists', async () => {
 
   const gotNamedTagLists = hook.result.current.namedTagLists
   const wantNamedTagLists = [{ id: 'dont delete me' }]
+
+  expect(gotNamedTagLists).toEqual(wantNamedTagLists)
+})
+
+test('replace named tag list', async () => {
+  const context = createContext()
+
+  getNamedTagLists.mockResolvedValue([
+    { id: 'replace me', name: 'replace me', tags: ['#replace', '#me'] },
+    { id: 'dont replace me' },
+  ])
+  const hook = renderHook(() => useNamedTagLists(context), {
+    wrapper: ({ children }) => (
+      <Provider context={context} children={children} />
+    ),
+  })
+  const { replaceNamedTagList } = hook.result.current
+
+  httpReplaceNamedTagList.mockResolvedValue()
+  await act(async () => {
+    await replaceNamedTagList({
+      id: 'replace me',
+      name: 'updated',
+      tags: ['#updated'],
+    })
+  })
+
+  expect(httpReplaceNamedTagList).toHaveBeenCalledWith({
+    id: 'replace me',
+    name: 'updated',
+    tags: ['#updated'],
+  })
+
+  const gotNamedTagLists = hook.result.current.namedTagLists
+  const wantNamedTagLists = [
+    { id: 'replace me', name: 'updated', tags: ['#updated'] },
+    { id: 'dont replace me' },
+  ]
 
   expect(gotNamedTagLists).toEqual(wantNamedTagLists)
 })

@@ -3,6 +3,7 @@ import {
   createNamedTagList,
   deleteNamedTagLists,
   getNamedTagLists,
+  replaceNamedTagList,
 } from './hashbang.http'
 
 function Provider({ children, context }) {
@@ -26,6 +27,15 @@ function Provider({ children, context }) {
           })
         },
         namedTagLists,
+        replaceNamedTagList: (namedTagList) => {
+          replaceNamedTagList(namedTagList).then(() => {
+            setNamedTagLists((namedTagLists) =>
+              namedTagLists.map(({ id, ...rest }) =>
+                id === namedTagList.id ? namedTagList : { id, ...rest },
+              ),
+            )
+          })
+        },
       }}
     >
       {children}

@@ -24,4 +24,23 @@ function getNamedTagLists() {
   ).then((response) => response.json())
 }
 
-export { createNamedTagList, deleteNamedTagLists, getNamedTagLists }
+function replaceNamedTagList({ id, ...namedTagList }) {
+  const path = `/namedTagLists?id=${id}`
+  return fetch(`https://hashbang.arctair.com${path}`, {
+    method: 'PUT',
+    body: JSON.stringify(namedTagList),
+  }).then((response) => {
+    if (response.status !== 204) {
+      throw Error(
+        `Got status code ${response.status} trying to put ${path}`,
+      )
+    }
+  })
+}
+
+export {
+  createNamedTagList,
+  deleteNamedTagLists,
+  getNamedTagLists,
+  replaceNamedTagList,
+}
