@@ -28,36 +28,40 @@
   grid-column: 1;
 }
 
-.namedTagList > .delete {
+.namedTagList > .delete,
+.namedTagList > .create {
   line-height: 1;
   grid-row: 1;
   grid-column: 2;
   cursor: pointer;
+}
+
+.namedTagList > .delete {
   background-color: rgb(240, 202, 202);
 }
+
+.namedTagList > .create {
+  background-color: rgb(214, 238, 214);
+}
+
+.namedTagList > .delete:hover,
+.namedTagList > .create:hover {
+  filter: brightness(115%);
+}
+
+.namedTagList > .delete:after,
+.namedTagList > .create:after {
+  font-size: 2em;
+}
+
 .namedTagList > .delete:after {
   content: '×';
-  font-size: 2em;
+}
+
+.namedTagList > .create:after {
+  content: '+';
 }
 
 .namedTagList > .tags {
   grid-row: 2;
-}
-
-.namedTagList > .create {
-  padding: 0;
-  grid-row: 3;
-}
-
-.namedTagList > .create:after {
-  content: 'create';
-  display: block;
-  background-color: rgb(214, 238, 214);
-  cursor: pointer;
-  padding: 0.25em;
-  font-size: 1em;
-}
-
-.namedTagList > .create:hover:after {
-  background-color: lightgreen;
 }
