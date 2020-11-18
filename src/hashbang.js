@@ -6,10 +6,17 @@ import {
   replaceNamedTagList,
 } from './hashbang.http'
 
+const namedTagListComparator = (a, b) =>
+  a.name !== undefined && b.name !== undefined
+    ? a.name.localeCompare(b.name)
+    : 0
+
 function Provider({ children, context }) {
   const [namedTagLists, setNamedTagLists] = useState([])
   useEffect(() => {
-    getNamedTagLists().then((ntls) => setNamedTagLists(ntls))
+    getNamedTagLists().then((ntls) =>
+      setNamedTagLists(ntls.sort(namedTagListComparator)),
+    )
   }, [])
   return (
     <context.Provider

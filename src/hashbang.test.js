@@ -15,9 +15,10 @@ jest.mock('./hashbang.http', () => ({
   replaceNamedTagList: jest.fn(),
 }))
 
-test('get named tag lists', async () => {
+test('get named tag lists returns sorted by name', async () => {
   getNamedTagLists.mockResolvedValue([
-    { name: 'minnesota', tags: ['#cold', '#craftbeer'] },
+    { name: 'zinnesota', tags: ['#cold', '#craftbeer'] },
+    { name: 'ainnesota', tags: ['#cold', '#craftbeer'] },
   ])
 
   const context = createContext()
@@ -33,7 +34,8 @@ test('get named tag lists', async () => {
 
   const gotNamedTagLists = result.current.namedTagLists
   const wantNamedTagLists = [
-    { name: 'minnesota', tags: ['#cold', '#craftbeer'] },
+    { name: 'ainnesota', tags: ['#cold', '#craftbeer'] },
+    { name: 'zinnesota', tags: ['#cold', '#craftbeer'] },
   ]
 
   expect(gotNamedTagLists).toEqual(wantNamedTagLists)
