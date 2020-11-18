@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNamedTagLists } from './hashbang'
 import context from './context'
+import AutoTextarea from './AutoTextarea'
 import './NamedTagList.css'
 
 function NewNamedTagList() {
@@ -15,10 +16,11 @@ function NewNamedTagList() {
         placeholder="autumn"
         onChange={(e) => setName(e.target.value)}
       />
-      <textarea
+      <AutoTextarea
         className="tags"
         data-testid="tags"
         placeholder="#craftbeer #leaves"
+        value={tags.join(' ')}
         onChange={(e) => setTags(e.target.value.split(' '))}
       />
       <button
