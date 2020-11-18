@@ -32,7 +32,7 @@ function NamedTagList({ id, name: _name, tags: _tags }) {
         className="delete"
         data-testid="delete"
       />
-      <input
+      <textarea
         className="tags"
         data-testid="tags"
         value={tags.join(' ')}
