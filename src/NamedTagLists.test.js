@@ -11,9 +11,6 @@ jest.mock('./context', () => ({ fake: 'context' }))
 
 beforeEach(() => {
   useNamedTagLists.mockReturnValue({
-    createNamedTagList: () => {},
-    deleteNamedTagLists: () => {},
-    replaceNamedTagList: () => {},
     namedTagLists: [],
   })
 })
@@ -22,13 +19,24 @@ afterEach(() => {
   expect(useNamedTagLists).toHaveBeenCalledWith(context)
 })
 
-test('renders no named tag lists', async () => {
-  const { container } = render(<NamedTagLists />)
+function FakeNamedTagList({ id, name, tags }) {
+  return (
+    <div data-testid="fakeNamedTagList">
+      <div data-testid="id">{id}</div>
+      <div data-testid="name">{name}</div>
+      <div data-testid="tags">{tags}</div>
+    </div>
+  )
+}
 
-  expect(container.querySelector('[data-testid=namedTagList]')).toBeNull()
+test('renders no named tag lists', async () => {
+  const { container } = render(
+    <NamedTagLists Component={FakeNamedTagList} />,
+  )
+
   expect(
-    container.querySelectorAll('[data-testid=newNamedTagList]'),
-  ).toHaveLength(1)
+    container.querySelector('[data-testid=fakeNamedTagList]'),
+  ).toBeNull()
 })
 
 test('renders named tag lists', async () => {
@@ -40,9 +48,11 @@ test('renders named tag lists', async () => {
     ],
   })
 
-  const { container } = render(<NamedTagLists />)
+  const { container } = render(
+    <NamedTagLists Component={FakeNamedTagList} />,
+  )
 
   expect(
-    container.querySelectorAll('[data-testid=namedTagList]'),
+    container.querySelectorAll('[data-testid=fakeNamedTagList]'),
   ).toHaveLength(1)
 })
