@@ -1,0 +1,9 @@
+.autotextarea {
+  overflow: hidden;
+  resize: none;
+}
+
+.autotextarea.dummy {
+  visibility: hidden;
+  height: 0;
+}

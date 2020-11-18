@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNamedTagLists } from './hashbang'
 import './NamedTagList.css'
 import context from './context'
+import AutoTextarea from './AutoTextarea'
 
 function NamedTagList({ id, name: _name, tags: _tags }) {
   const { deleteNamedTagLists, replaceNamedTagList } = useNamedTagLists(
@@ -32,7 +33,7 @@ function NamedTagList({ id, name: _name, tags: _tags }) {
         className="delete"
         data-testid="delete"
       />
-      <textarea
+      <AutoTextarea
         className="tags"
         data-testid="tags"
         value={tags.join(' ')}
