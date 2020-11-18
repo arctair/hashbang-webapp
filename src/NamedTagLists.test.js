@@ -29,7 +29,7 @@ function FakeNamedTagList({ id, name, tags }) {
   )
 }
 
-test('renders no named tag lists', async () => {
+test('renders no named tag lists', () => {
   const { container } = render(
     <NamedTagLists Component={FakeNamedTagList} />,
   )
@@ -39,13 +39,9 @@ test('renders no named tag lists', async () => {
   ).toBeNull()
 })
 
-test('renders named tag lists', async () => {
+test('renders named tag lists', () => {
   useNamedTagLists.mockReturnValue({
-    namedTagLists: [
-      {
-        tags: [],
-      },
-    ],
+    namedTagLists: [{ id: 'deadbeef' }],
   })
 
   const { container } = render(
