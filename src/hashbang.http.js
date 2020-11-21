@@ -1,5 +1,5 @@
 function createNamedTagList(namedTagList) {
-  return fetch('https://hashbang.arctair.com/namedTagLists', {
+  return fetch('https://hashbang.arctair.com/namedTagLists?bucket=default', {
     method: 'POST',
     body: JSON.stringify(namedTagList),
   }).then((response) => response.json())
@@ -20,7 +20,7 @@ function deleteNamedTagLists(ids) {
 
 function getNamedTagLists() {
   return fetch(
-    'https://hashbang.arctair.com/namedTagLists',
+    'https://hashbang.arctair.com/namedTagLists?bucket=default',
   ).then((response) => response.json())
 }
 

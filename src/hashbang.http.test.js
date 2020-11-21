@@ -22,7 +22,7 @@ beforeEach(() => {
 test('get named tag lists', async () => {
   nock('https://hashbang.arctair.com')
     .defaultReplyHeaders(cors)
-    .get('/namedTagLists')
+    .get('/namedTagLists?bucket=default')
     .reply(200, [{ name: 'minnesota', tags: ['#cold', '#craftbeer'] }])
 
   const gotNamedTagLists = await getNamedTagLists()
@@ -36,7 +36,7 @@ test('get named tag lists', async () => {
 test('get named tag lists is empty', async () => {
   nock('https://hashbang.arctair.com')
     .defaultReplyHeaders(cors)
-    .get('/namedTagLists')
+    .get('/namedTagLists?bucket=default')
     .reply(200, [])
 
   const gotNamedTagLists = await getNamedTagLists()
@@ -48,7 +48,7 @@ test('get named tag lists is empty', async () => {
 test('create named tag list', async () => {
   nock('https://hashbang.arctair.com')
     .defaultReplyHeaders(cors)
-    .post('/namedTagLists', {
+    .post('/namedTagLists?bucket=default', {
       name: 'sleep',
       tags: ['#when', '#im', '#dead'],
     })
