@@ -7,7 +7,7 @@ describe('App', function () {
   })
 
   it('renders the app', function () {
-    cy.request('delete', 'https://hashbang.arctair.com/namedTagLists')
+    cy.request('delete', 'https://hashbang.arctair.com/namedTagLists?bucket=default')
       .its('isOkStatusCode')
       .should('be.true')
 
