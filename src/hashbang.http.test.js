@@ -89,7 +89,7 @@ test('delete named tag list when error', async () => {
 
   await expect(deleteNamedTagLists(['deadbeef'])).rejects.toEqual(
     Error(
-      'Got status code 504 trying to delete /namedTagLists?id=deadbeef',
+      'Got status code 504 trying to delete https://hashbang.arctair.com/namedTagLists?id=deadbeef',
     ),
   )
 })
@@ -136,6 +136,8 @@ test('replace named tag list when error', async () => {
       tags: ['#deadbeef'],
     }),
   ).rejects.toEqual(
-    Error('Got status code 504 trying to put /namedTagLists?id=deadbeef'),
+    Error(
+      'Got status code 504 trying to put https://hashbang.arctair.com/namedTagLists?id=deadbeef',
+    ),
   )
 })

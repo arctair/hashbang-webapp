@@ -1,13 +1,19 @@
-function createNamedTagList(namedTagList) {
-  return fetch('https://hashbang.arctair.com/namedTagLists?bucket=default', {
+const url = (path, params = {}) => {
+  const url = new URL(path, 'https://hashbang.arctair.com')
+  url.search = new URLSearchParams(params)
+  return url
+}
+
+function createNamedTagList(namedTagList, bucket = 'default') {
+  return fetch(url('/namedTagLists', { bucket }), {
     method: 'POST',
     body: JSON.stringify(namedTagList),
   }).then((response) => response.json())
 }
 
 function deleteNamedTagLists(ids) {
-  const path = `/namedTagLists?id=${ids.join(',')}`
-  return fetch(`https://hashbang.arctair.com${path}`, {
+  const path = url('/namedTagLists', { id: ids.join(',') })
+  return fetch(path, {
     method: 'DELETE',
   }).then((response) => {
     if (response.status !== 204) {
@@ -18,15 +24,15 @@ function deleteNamedTagLists(ids) {
   })
 }
 
-function getNamedTagLists() {
-  return fetch(
-    'https://hashbang.arctair.com/namedTagLists?bucket=default',
-  ).then((response) => response.json())
+function getNamedTagLists(bucket = 'default') {
+  return fetch(url('/namedTagLists', { bucket })).then((response) =>
+    response.json(),
+  )
 }
 
 function replaceNamedTagList({ id, ...namedTagList }) {
-  const path = `/namedTagLists?id=${id}`
-  return fetch(`https://hashbang.arctair.com${path}`, {
+  const path = url('/namedTagLists', { id })
+  return fetch(path, {
     method: 'PUT',
     body: JSON.stringify(namedTagList),
   }).then((response) => {
