@@ -3,9 +3,9 @@ import {
   deleteNamedTagLists,
   getNamedTagLists,
   replaceNamedTagList,
-} from './hashbang.http'
+} from './hashbang'
 import nock from 'nock'
-import { eq } from './fn'
+import { eq } from 'fn'
 
 const cors = {
   'access-control-allow-origin': '*',

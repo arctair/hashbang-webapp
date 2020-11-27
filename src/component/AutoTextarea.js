@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { classNames, useWindowSize } from './fn'
+import { classNames, useWindowSize } from 'fn'
 import './AutoTextarea.css'
 
 function AutoTextarea({ value, className, ...props }) {

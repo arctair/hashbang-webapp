@@ -1,5 +1,5 @@
-import { useNamedTagLists } from './hashbang'
-import context from './context'
+import { useNamedTagLists } from 'hook/hashbang'
+import context from 'context'
 
 function NamedTagLists({ Component }) {
   const { namedTagLists } = useNamedTagLists(context)

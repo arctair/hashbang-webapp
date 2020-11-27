@@ -4,7 +4,7 @@ import {
   deleteNamedTagLists,
   getNamedTagLists,
   replaceNamedTagList,
-} from './hashbang.http'
+} from 'http/hashbang'
 
 const namedTagListComparator = (a, b) =>
   a.name !== undefined && b.name !== undefined

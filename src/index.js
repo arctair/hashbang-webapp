@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import NamedTagLists from './NamedTagLists'
-import NamedTagList from './NamedTagList'
-import NewNamedTagList from './NewNamedTagList'
+import NamedTagLists from 'component/NamedTagLists'
+import NamedTagList from 'component/NamedTagList'
+import NewNamedTagList from 'component/NewNamedTagList'
 import * as serviceWorker from './serviceWorker'
-import { Provider } from './hashbang'
-import context from './context'
+import { Provider } from 'hook/hashbang'
+import context from 'context'
 
 ReactDOM.render(
   <Provider context={context}>

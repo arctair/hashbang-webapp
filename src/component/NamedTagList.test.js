@@ -2,14 +2,14 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import NamedTagList from './NamedTagList'
 
-import { useNamedTagLists } from './hashbang'
-import context from './context'
+import { useNamedTagLists } from 'hook/hashbang'
+import context from 'context'
 
-jest.mock('./hashbang', () => ({
+jest.mock('hook/hashbang', () => ({
   useNamedTagLists: jest.fn(),
 }))
 
-jest.mock('./context', () => ({ fake: 'context' }))
+jest.mock('context', () => ({ fake: 'context' }))
 
 beforeEach(() => {
   useNamedTagLists.mockReturnValue({

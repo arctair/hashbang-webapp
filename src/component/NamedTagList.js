@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useNamedTagLists } from './hashbang'
+import { useNamedTagLists } from 'hook/hashbang'
 import './NamedTagList.css'
-import context from './context'
+import context from 'context'
 import AutoTextarea from './AutoTextarea'
 
 function NamedTagList({ id, name: _name, tags: _tags }) {

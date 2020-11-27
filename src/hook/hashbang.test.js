@@ -4,11 +4,11 @@ import {
   deleteNamedTagLists as httpDeleteNamedTagLists,
   getNamedTagLists,
   replaceNamedTagList as httpReplaceNamedTagList,
-} from './hashbang.http'
+} from 'http/hashbang'
 import { useNamedTagLists, Provider } from './hashbang'
 import { createContext } from 'react'
 
-jest.mock('./hashbang.http', () => ({
+jest.mock('http/hashbang', () => ({
   createNamedTagList: jest.fn(),
   deleteNamedTagLists: jest.fn(),
   getNamedTagLists: jest.fn(),
