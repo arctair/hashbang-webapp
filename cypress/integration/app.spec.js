@@ -7,11 +7,24 @@ describe('App', function () {
   })
 
   it('renders the app', function () {
-    cy.request('delete', 'https://hashbang.arctair.com/namedTagLists?bucket=default')
+    cy.request(
+      'delete',
+      'https://hashbang.arctair.com/namedTagLists?bucket=acceptance-webapp',
+    )
       .its('isOkStatusCode')
       .should('be.true')
 
+    cy.get('[data-testid=bucket]').clear({ force: true })
+    cy.get('[data-testid=bucket]').type('acceptance-webapp', {
+      force: true,
+    })
+
     cy.reload()
+
+    cy.get('[data-testid=bucket]').should(
+      'have.value',
+      'acceptance-webapp',
+    )
 
     cy.get('[data-testid=namedTagList]').should('not.exist')
 
