@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
+import Bucket from 'component/Bucket'
 import NamedTagLists from 'component/NamedTagLists'
 import NamedTagList from 'component/NamedTagList'
 import NewNamedTagList from 'component/NewNamedTagList'
@@ -10,6 +11,7 @@ import context from 'context'
 
 ReactDOM.render(
   <Provider context={context}>
+    <Bucket />
     <NamedTagLists Component={NamedTagList} />
     <NewNamedTagList />
   </Provider>,
